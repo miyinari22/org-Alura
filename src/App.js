@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {v4 as uuid} from 'uuid'
+import {v4 as uuid} from 'uuid';
 import './App.css';
 import Header from './components/Header/Header';
 import Formulario from './components/Formulario/Formulario';
@@ -10,7 +10,22 @@ import Footer from './components/Footer';
 function App() {
 
   const [mostrarFormulario, actualizarMostrar] = useState(false);
-  const [colaboradores, actualizarColaboradores] = useState([]);
+  const [colaboradores, actualizarColaboradores] = useState([{
+    id: uuid(),
+    equipo: "Front End",
+    foto: "https://github.com/miyinari22.png",
+    nombre: "Tilino",
+    puesto: "Tilin",
+    fav: false
+  },
+  {
+    id: uuid(),
+    equipo: "UX y Diseño",
+    foto: "https://vocadb.net/Album/CoverPicture/33702?v=10",
+    nombre: "Yan Xi",
+    puesto: "MUTA",
+    fav: true
+  }]);
 
   const [equipos, actualizarEquipos] = useState([
     {
@@ -50,7 +65,7 @@ function App() {
       colorSecundario: "#fff5d9"
     },
     {
-      
+      id: uuid(),
       titulo:"Innovación y Gestión",
       colorPrimario:"#ff8a29",
       colorSecundario: "#ffeedf"
@@ -92,6 +107,16 @@ function App() {
     actualizarEquipos([...equipos, {...nuevoEquipo, id: uuid()}])
   }
 
+  const like = (id) =>{
+    const colaboradoresActualizados = colaboradores.map((colaborador) => {
+      if(colaborador.id === id){
+        colaborador.fav = !colaborador.fav
+      }
+      return colaborador
+    })
+    actualizarColaboradores(colaboradoresActualizados)
+  }
+
   return (
     <div>
       <Header />
@@ -112,6 +137,7 @@ function App() {
         colaboradores={colaboradores.filter(colaborador => colaborador.equipo === equipo.titulo)}
         eliminarColaborador={eliminarColaborador}
         actualizarColor={actualizarColor}
+        like={like}
         />)
       }
       
